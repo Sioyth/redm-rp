@@ -2,7 +2,7 @@
 using MySqlConnector; // https://github.com/mysql-net/MySqlConnector
 using System.Threading.Tasks;
 
-namespace MySqlWrapper
+namespace MySqlLib
 {
     public class MySqlDatabase
     {
@@ -13,7 +13,7 @@ namespace MySqlWrapper
         public MySqlDatabase()
         {
             _connection = null;
-            _mySqlString = "server=localhost;database=fivem;userid=root;";
+            _mySqlString = "server=localhost;database=redm;userid=root;";
         }
 
         public async Task<bool> Connect()

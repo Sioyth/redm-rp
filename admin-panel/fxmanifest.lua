@@ -1,9 +1,10 @@
+games { 'rdr3' }
+fx_version 'adamant'
+
 version '1.0.0'
 author 'Sioyth'
 description 'Simple Admin Commands'
 repository ''
 
-client_script 'AdminPanel.net.dll'
+client_script 'admin-panel.net.dll'
 
-fx_version 'adamant'
-games { 'gta5' }

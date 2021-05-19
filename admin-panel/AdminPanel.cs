@@ -19,47 +19,47 @@ namespace Doom
         {
             string model = "";
             if (args.Count > 0) model = args[0].ToString();
-
-            Ped player = Game.PlayerPed;
+            
+            //Ped player = Game.PlayerPed;
             uint hash = (uint)API.GetHashKey(model);
             if (!API.IsModelInCdimage(hash) || !API.IsModelAVehicle(hash)) return;
-            if (player.IsInVehicle()) player.CurrentVehicle.Delete();
+           // if (player.IsInVehicle()) player.CurrentVehicle.Delete();
 
-            Vehicle vehicle = await World.CreateVehicle(model, Game.PlayerPed.Position, Game.PlayerPed.Heading);
-            player.SetIntoVehicle(vehicle, VehicleSeat.Driver);
+            //Vehicle vehicle = await World.CreateVehicle(model, Game.PlayerPed.Position, Game.PlayerPed.Heading);
+            //player.SetIntoVehicle(vehicle, VehicleSeat.Driver);
         }
 
         private static void DestroyVehicle()
         {
-            Ped player = Game.PlayerPed;
-            if (player.IsInVehicle()) player.CurrentVehicle.Delete();
+            //Ped player = Game.PlayerPed;
+            //if (player.IsInVehicle()) player.CurrentVehicle.Delete();
         }
 
         private static void AddWeapon(int id, List<object> args, string raw)
         {
-            Ped player = Game.PlayerPed;
+           // Ped player = Game.PlayerPed;
         }
 
         private static void GodMode()
         {
-            Ped player = Game.PlayerPed;
-            player.IsInvincible = !player.IsInvincible;
+           // Ped player = Game.PlayerPed;
+            //player.IsInvincible = !player.IsInvincible;
 
             TriggerEvent("chat:addMessage", new
             {
                 color = new[] { 255, 0, 0 },
-                args = new[] { "[Godmode]", $"{(player.IsInvincible ? "On" : "Off")}" }
+                //args = new[] { "[Godmode]", $"{(player.IsInvincible ? "On" : "Off")}" }
             });
         }
 
         private static void GetPosition()
         {
-            Ped player = Game.PlayerPed;
+           //Ped player = Game.PlayerPed;
 
             TriggerEvent("chat:addMessage", new
             {
                 color = new[] { 255, 0, 0 },
-                args = new[] { "[Position]", $"{player.Position}" }
+                //args = new[] { "[Position]", $"{player.Position}" }
             });
         }
     }

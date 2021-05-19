@@ -1,5 +1,5 @@
 ﻿using System;
-using MySqlWrapper;
+using MySqlLib;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 

@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Admin</RootNamespace>
-    <AssemblyName>AdminPanel.net</AssemblyName>
+    <AssemblyName>admin-panel.net</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CitizenFX.Core">
-      <HintPath>..\lib\CitizenFX.Core.dll</HintPath>
+    <Reference Include="CitizenFX.CoreClient">
+      <HintPath>..\packages\CitizenFX.CoreClient.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -54,4 +54,7 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy.exe /D /Y $(TargetDir)*.* "E:\RedDeadRP\server-data\resources\[trinita]\admin-panel"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
