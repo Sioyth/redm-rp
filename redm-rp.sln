@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cfx", "Cfx", "{A75650F7-582
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{892566FD-3AE1-4EB7-B9B8-AF305FF4CB12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spawn-manager", "spawn-manager\spawn-manager.csproj", "{64FCA2F8-6881-4E38-9FBA-9F154A498320}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{D59ADB4A-6BB8-433B-8368-814B05D4B627}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D59ADB4A-6BB8-433B-8368-814B05D4B627}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D59ADB4A-6BB8-433B-8368-814B05D4B627}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64FCA2F8-6881-4E38-9FBA-9F154A498320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64FCA2F8-6881-4E38-9FBA-9F154A498320}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64FCA2F8-6881-4E38-9FBA-9F154A498320}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64FCA2F8-6881-4E38-9FBA-9F154A498320}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,9 +4,7 @@ rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aw
 
 version '1.0.0'
 author 'Sioyth'
-description ''
+description 'Simple Spawn Manager'
 repository ''
-server_script 'player-connect.net.dll'
 
-
-
+client_script 'spawn-manager.net.dll'

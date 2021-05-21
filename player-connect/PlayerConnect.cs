@@ -41,7 +41,6 @@ namespace player_connect
 
             deferrals.done();
             CheckID(steamid, playerName);
-            TriggerClientEvent(player, "doom:spawnPlayer");
         }
 
         public async void CheckID(string id, string name)
