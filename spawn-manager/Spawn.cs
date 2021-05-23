@@ -16,30 +16,73 @@ namespace SpawnManager
 
         public Spawn()
         {
-            Tick += SpawnTick;
+            Tick += SpawnThread;
+            API.RegisterCommand("pos", new Action(GetPosition), false);
+            API.RegisterCommand("setpos", new Action(SetPos), false);
+        }
+
+        // TODO: Change this
+        private void GetPosition()
+        {
+            Vector3 position = API.GetEntityCoords(API.PlayerPedId(), false, false);
+            Debug.WriteLine(position.X + ", " + position.Y + ", " + position.Z);
+        }
+
+        private void SetPos()
+        {
+            Debug.WriteLine("Set pos");
+            Vector3 spawnPoint = new Vector3(-262.849f, 793.404f, 118.087f);
+            API.SetEntityCoordsNoOffset(API.PlayerPedId(), 10, 10, 10, false, false, false);
         }
 
         private static void FreezePlayer(int id, bool freeze)
         {
-            int ped = API.GetPlayerPed(id);
+            int ped = API.PlayerPedId();
 
             //True when player was visible and frozen
             var visibility = freeze && API.IsEntityVisible(ped);
 
-            API.SetPlayerControl(id, 0, 0, 0);
-            API.SetEntityVisible(ped, visibility);
-            API.SetEntityCollision(ped, !freeze, true);
-            API.FreezeEntityPosition(ped, freeze);
-            API.SetPlayerInvincible(ped, freeze);
+            //API.SetPlayerControl(id, 1, 0, 0);
+            //API.SetEntityVisible(ped, visibility);
+            //API.SetEntityCollision(ped, !freeze, true);
+            //API.FreezeEntityPosition(ped, freeze);
+            //API.SetPlayerInvincible(ped, freeze);
 
-            if (API.IsPedFatallyInjured(ped))
+            //if (!API.IsPedFatallyInjured(ped))
+            //{
+            //    API.ClearPedTasksImmediately(ped, 0, 0);
+            //}
+
+            API.SetPlayerControl(id, 1, 0, 0);
+            if (!freeze)
             {
-                API.ClearPedTasksImmediately(ped, 0, 0);
+                if (!API.IsEntityVisible(ped))
+                    API.SetEntityVisible(ped, true);
+
+                if (!API.IsPedInAnyVehicle(ped, true))
+                    API.SetEntityCollision(ped, true, true);
+
+                API.FreezeEntityPosition(ped, false);
+                //SetCharNeverTargetted(ped, false)
+                API.SetPlayerInvincible(API.PlayerId(), false);
+            }
+            else
+            {
+                if (API.IsEntityVisible(ped))
+                    API.SetEntityVisible(ped, false);
+
+                API.SetEntityCollision(ped, false, true);
+                API.FreezeEntityPosition(ped, true);
+                //SetCharNeverTargetted(ped, true)
+                API.SetPlayerInvincible(API.PlayerId(), true);
+
+                if (API.IsPedFatallyInjured(ped))
+                    API.ClearPedTasksImmediately(ped, 0, 0);
             }
         }
         private async void SpawnPlayer()
         {
-            Debug.WriteLine("DOOOOOM!");
+            // TODO: Read from database
             //string json = File.ReadAllText("spawnpoints.json");
             //List<Vector3> spawnPoints = JsonConvert.DeserializeObject<List<Vector3>>(json);
             Vector3 spawnPoint = new Vector3(-262.849f, 793.404f, 118.087f); 
@@ -47,27 +90,26 @@ namespace SpawnManager
 
             _spawnLock = true;
 
-            API.DoScreenFadeOut(500);
+            //API.DoScreenFadeOut(500);
 
-            while (!API.IsScreenFadingOut())
-            {
-                await Delay(1);
-            }
+            //while (!API.IsScreenFadingOut())
+            //{
+            //    Debug.WriteLine("ANOTHER LOOOP");
+            //    await Delay(1);
+            //}
 
-            int ped = API.GetPlayerPed(-1);
             FreezePlayer(API.PlayerId(), true);
 
-            // temporary
-            int hash = API.GetHashKey("U_M_M_NbxBoatTicketSeller_01");
+            int hash = API.GetHashKey("RCSP_GUNSLINGERDUEL4_MALES_01");
             if(await LoadModel(hash)) Debug.WriteLine("Loaded sucessfull");
 
             API.SetPlayerModel(API.PlayerId(), hash, 0);
             API.SetModelAsNoLongerNeeded((uint)hash);
-            API.N_0x283978a15512b2fe(ped, 1);
 
+            int ped = API.PlayerPedId();
+            API.N_0x283978a15512b2fe(ped, 1);
             API.RequestCollisionAtCoord(spawnPoint.X, spawnPoint.Y, spawnPoint.Z);
             API.SetEntityCoordsNoOffset(ped, spawnPoint.X, spawnPoint.Y, spawnPoint.Z, false, false, false);
-            API.NetworkResurrectLocalPlayer((int)spawnPoint.X, (int)spawnPoint.Y, (int)spawnPoint.Z, 250, 1, 1, 0, 0);
             API.ClearPedTasksImmediately(ped, 0, 0);
             API.RemoveAllPedWeapons(ped, false, false);
             API.ClearPlayerWantedLevel(API.PlayerId());
@@ -75,20 +117,20 @@ namespace SpawnManager
             int time = API.GetGameTimer();
             while (!API.HasCollisionLoadedAroundEntity(ped) && (API.GetGameTimer() - time) < 5000)
             {
-                Debug.WriteLine("Loop 1");
                 await Delay(1);
             }
 
             API.ShutdownLoadingScreen();
             
 
-            if(API.IsScreenFadedOut()) API.DoScreenFadeIn(500);
-            while (!API.IsScreenFadingIn())
-            {
-                Debug.WriteLine("Loop 2");
-                await Delay(1);
-            }
-
+           // if(API.IsScreenFadedOut()) 
+                API.DoScreenFadeIn(500);
+            //while (!API.IsScreenFadingIn())
+            //{
+            //    Debug.WriteLine("Loop 2");
+            //    await Delay(1);
+            //}
+            
             FreezePlayer(API.PlayerId(), false);
             _spawnLock = false;
         }
@@ -101,20 +143,21 @@ namespace SpawnManager
             API.RequestModel(h, false);
             while (!API.HasModelLoaded(h))
             {
-                //API.RequestModel(hash, false);
+                API.RequestModel(h, false);
                 await Delay(1);
             }
 
             return true;
         }
 
+        //TODO: Change name, respawn when you die.
         bool forceRespawn = true;
         int diedAt = 0;
-        private async Task SpawnTick()
+        private async Task SpawnThread()
         {
             await Delay(50);
 
-            int ped = API.GetPlayerPed(-1);
+            int ped = API.PlayerPedId();
             if (API.IsEntityDead(ped)) diedAt = API.GetGameTimer();
             else diedAt = 0;
 
