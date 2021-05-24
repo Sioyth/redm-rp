@@ -7,7 +7,7 @@
     <ProjectGuid>{67CDCD5A-D435-412F-985C-E4740DCB10AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Admin</RootNamespace>
+    <RootNamespace>TrinitaRP</RootNamespace>
     <AssemblyName>admin-panel.net</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

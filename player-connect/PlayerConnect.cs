@@ -3,7 +3,7 @@ using MySqlLib;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 
-namespace player_connect
+namespace TrinitaRP
 {
     public class PlayerConnect : ServerScript
     {

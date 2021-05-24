@@ -7,7 +7,7 @@
     <ProjectGuid>{64FCA2F8-6881-4E38-9FBA-9F154A498320}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SpawnManager</RootNamespace>
+    <RootNamespace>TrinitaRP</RootNamespace>
     <AssemblyName>spawn-manager.net</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Spawn.cs" />
+    <Compile Include="SpawnManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,38 +1,18 @@
-﻿using System;
-using System.IO;
-using CitizenFX.Core;
-using Newtonsoft.Json;
+﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SpawnManager
+namespace TrinitaRP
 {
 
-    public class Spawn : ClientScript
+    public class SpawnManager : ClientScript
     {
         //private readonly MySqlDatabase _db;
         private static bool _spawnLock = false;
 
-        public Spawn()
+        public SpawnManager()
         {
             Tick += SpawnThread;
-            API.RegisterCommand("pos", new Action(GetPosition), false);
-            API.RegisterCommand("setpos", new Action(SetPos), false);
-        }
-
-        // TODO: Change this
-        private void GetPosition()
-        {
-            Vector3 position = API.GetEntityCoords(API.PlayerPedId(), false, false);
-            Debug.WriteLine(position.X + ", " + position.Y + ", " + position.Z);
-        }
-
-        private void SetPos()
-        {
-            Debug.WriteLine("Set pos");
-            Vector3 spawnPoint = new Vector3(-262.849f, 793.404f, 118.087f);
-            API.SetEntityCoordsNoOffset(API.PlayerPedId(), 10, 10, 10, false, false, false);
         }
 
         private static void FreezePlayer(int id, bool freeze)
@@ -52,7 +32,7 @@ namespace SpawnManager
             //{
             //    API.ClearPedTasksImmediately(ped, 0, 0);
             //}
-
+            
             API.SetPlayerControl(id, 1, 0, 0);
             if (!freeze)
             {
