@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{64FCA2F8-6881-4E38-9FBA-9F154A498320}</ProjectGuid>
+    <ProjectGuid>{CD14A3B7-06E2-4596-AFA1-4B9657CE553C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TrinitaRP</RootNamespace>
-    <AssemblyName>spawn-manager.net</AssemblyName>
+    <RootNamespace>Trinita.Core.Native</RootNamespace>
+    <AssemblyName>trinita-native</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -45,26 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpawnManager.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="Ped.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="fxmanifest.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config" />
-    <None Include="spawnpoints.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\trinita-native\trinita-native.csproj">
-      <Project>{cd14a3b7-06e2-4596-afa1-4b9657ce553c}</Project>
-      <Name>trinita-native</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy.exe /D /Y $(TargetDir)*.* "E:\RedDeadRP\server-data\resources\[trinita]\spawn-manager"</PostBuildEvent>
-  </PropertyGroup>
 </Project>

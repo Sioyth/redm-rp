@@ -11,9 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "player-connect", "player-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cfx", "Cfx", "{A75650F7-5824-4632-B1A3-07E51B42C004}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{892566FD-3AE1-4EB7-B9B8-AF305FF4CB12}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Util", "Util", "{892566FD-3AE1-4EB7-B9B8-AF305FF4CB12}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spawn-manager", "spawn-manager\spawn-manager.csproj", "{64FCA2F8-6881-4E38-9FBA-9F154A498320}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trinita-native", "trinita-native\trinita-native.csproj", "{CD14A3B7-06E2-4596-AFA1-4B9657CE553C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{64FCA2F8-6881-4E38-9FBA-9F154A498320}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64FCA2F8-6881-4E38-9FBA-9F154A498320}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64FCA2F8-6881-4E38-9FBA-9F154A498320}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD14A3B7-06E2-4596-AFA1-4B9657CE553C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD14A3B7-06E2-4596-AFA1-4B9657CE553C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD14A3B7-06E2-4596-AFA1-4B9657CE553C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD14A3B7-06E2-4596-AFA1-4B9657CE553C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

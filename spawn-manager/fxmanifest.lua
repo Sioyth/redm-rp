@@ -7,4 +7,7 @@ author 'Sioyth'
 description 'Simple Admin Panel'
 repository ''
 
-client_script 'admin-panel.net.dll'
+client_script 'spawn-manager.net.dll'
+files {
+    "trinita-native.dll"
+}

@@ -1,65 +1,22 @@
 ﻿using CitizenFX.Core;
+using Trinita.Core.Native;
 using CitizenFX.Core.Native;
 using System.Threading.Tasks;
 
 namespace TrinitaRP
 {
-
     public class SpawnManager : ClientScript
     {
-        //private readonly MySqlDatabase _db;
-        private static bool _spawnLock = false;
+        private Player _player;
+        private static bool _spawnLock;
 
         public SpawnManager()
         {
+            _spawnLock = false;
+            _player = new Player();
             Tick += SpawnThread;
         }
 
-        private static void FreezePlayer(int id, bool freeze)
-        {
-            int ped = API.PlayerPedId();
-
-            //True when player was visible and frozen
-            var visibility = freeze && API.IsEntityVisible(ped);
-
-            //API.SetPlayerControl(id, 1, 0, 0);
-            //API.SetEntityVisible(ped, visibility);
-            //API.SetEntityCollision(ped, !freeze, true);
-            //API.FreezeEntityPosition(ped, freeze);
-            //API.SetPlayerInvincible(ped, freeze);
-
-            //if (!API.IsPedFatallyInjured(ped))
-            //{
-            //    API.ClearPedTasksImmediately(ped, 0, 0);
-            //}
-            
-            API.SetPlayerControl(id, 1, 0, 0);
-            if (!freeze)
-            {
-                if (!API.IsEntityVisible(ped))
-                    API.SetEntityVisible(ped, true);
-
-                if (!API.IsPedInAnyVehicle(ped, true))
-                    API.SetEntityCollision(ped, true, true);
-
-                API.FreezeEntityPosition(ped, false);
-                //SetCharNeverTargetted(ped, false)
-                API.SetPlayerInvincible(API.PlayerId(), false);
-            }
-            else
-            {
-                if (API.IsEntityVisible(ped))
-                    API.SetEntityVisible(ped, false);
-
-                API.SetEntityCollision(ped, false, true);
-                API.FreezeEntityPosition(ped, true);
-                //SetCharNeverTargetted(ped, true)
-                API.SetPlayerInvincible(API.PlayerId(), true);
-
-                if (API.IsPedFatallyInjured(ped))
-                    API.ClearPedTasksImmediately(ped, 0, 0);
-            }
-        }
         private async void SpawnPlayer()
         {
             // TODO: Read from database
@@ -78,27 +35,8 @@ namespace TrinitaRP
             //    await Delay(1);
             //}
 
-            FreezePlayer(API.PlayerId(), true);
-
-            int hash = API.GetHashKey("RCSP_GUNSLINGERDUEL4_MALES_01");
-            if(await LoadModel(hash)) Debug.WriteLine("Loaded sucessfull");
-
-            API.SetPlayerModel(API.PlayerId(), hash, 0);
-            API.SetModelAsNoLongerNeeded((uint)hash);
-
-            int ped = API.PlayerPedId();
-            API.N_0x283978a15512b2fe(ped, 1);
-            API.RequestCollisionAtCoord(spawnPoint.X, spawnPoint.Y, spawnPoint.Z);
-            API.SetEntityCoordsNoOffset(ped, spawnPoint.X, spawnPoint.Y, spawnPoint.Z, false, false, false);
-            API.ClearPedTasksImmediately(ped, 0, 0);
-            API.RemoveAllPedWeapons(ped, false, false);
-            API.ClearPlayerWantedLevel(API.PlayerId());
-
-            int time = API.GetGameTimer();
-            while (!API.HasCollisionLoadedAroundEntity(ped) && (API.GetGameTimer() - time) < 5000)
-            {
-                await Delay(1);
-            }
+            _player.Freeze(true);
+            _player.Spawn(spawnPoint);
 
             API.ShutdownLoadingScreen();
             
@@ -110,24 +48,9 @@ namespace TrinitaRP
             //    Debug.WriteLine("Loop 2");
             //    await Delay(1);
             //}
-            
-            FreezePlayer(API.PlayerId(), false);
+
+            _player.Freeze(false);
             _spawnLock = false;
-        }
-
-        private async Task<bool> LoadModel(int hash)
-        {
-            uint h = (uint)hash;
-            if (!API.IsModelValid(h)) return false;
-
-            API.RequestModel(h, false);
-            while (!API.HasModelLoaded(h))
-            {
-                API.RequestModel(h, false);
-                await Delay(1);
-            }
-
-            return true;
         }
 
         //TODO: Change name, respawn when you die.
