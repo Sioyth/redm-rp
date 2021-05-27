@@ -53,6 +53,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\trinita-native\trinita-native.csproj">
+      <Project>{cd14a3b7-06e2-4596-afa1-4b9657ce553c}</Project>
+      <Name>trinita-native</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy.exe /D /Y $(TargetDir)*.* "E:\RedDeadRP\server-data\resources\[trinita]\admin-panel"</PostBuildEvent>

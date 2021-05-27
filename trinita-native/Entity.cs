@@ -7,7 +7,7 @@ namespace Trinita.Core.Native
 {
     public class Entity
     {
-        public static async Task<bool> LoadModel(string model)
+        public async Task<bool> LoadModel(string model)
         {
             uint hash = (uint)API.GetHashKey(model);
             if (!Function.Call<bool>(Hash.IS_MODEL_VALID, hash)) return false;
@@ -21,7 +21,7 @@ namespace Trinita.Core.Native
             return true;
         }
 
-        public static async Task<bool> LoadModel(uint hash)
+        public async Task<bool> LoadModel(uint hash)
         {
             if (!Function.Call<bool>(Hash.IS_MODEL_VALID, hash)) return false;
 

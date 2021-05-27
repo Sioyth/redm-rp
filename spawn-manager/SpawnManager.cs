@@ -24,7 +24,6 @@ namespace TrinitaRP
             //List<Vector3> spawnPoints = JsonConvert.DeserializeObject<List<Vector3>>(json);
             Vector3 spawnPoint = new Vector3(-262.849f, 793.404f, 118.087f); 
             if (_spawnLock) return;
-
             _spawnLock = true;
 
             //API.DoScreenFadeOut(500);
@@ -68,8 +67,9 @@ namespace TrinitaRP
             {
                 Debug.WriteLine("SPAWNTICK");
                 SpawnPlayer();
-                forceRespawn = false;
+                forceRespawn = false;   
             }
+
             //if playerPed and playerPed ~= -1 then
             //-- check if we want to autospawn
             //if autoSpawnEnabled then
@@ -98,3 +98,6 @@ namespace TrinitaRP
 
     }
 }
+
+
+       
