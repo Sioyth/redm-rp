@@ -38,6 +38,11 @@ namespace Trinita.Core.Native
             Function.Call<bool>(Hash._GIVE_WEAPON_TO_PED_2, _id, hash, ammo, equipNow, true, 1, false, 0.5f, 1.0f, 752097756, isLeftHanded, 0.0f, false);
         }
 
+        public void RemoveAllWeapons()
+        {
+            Function.Call(Hash.REMOVE_ALL_PED_WEAPONS, _id, true, true);
+        }
+
         public void Freeze(bool freeze)
         {
             if (!freeze)

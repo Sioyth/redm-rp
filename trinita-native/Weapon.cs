@@ -2,7 +2,7 @@
 
 namespace Trinita.Core.Native
 {
-    class Weapon
+    public class Weapon
     {
         private Ped _owner;
         private WeaponHash _hash;

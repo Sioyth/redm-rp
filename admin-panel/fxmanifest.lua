@@ -9,3 +9,7 @@ repository ''
 
 client_script 'admin-panel.net.dll'
 
+files {
+    "trinita-native.dll"
+}
+

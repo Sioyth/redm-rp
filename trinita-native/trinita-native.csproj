@@ -45,6 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menu.cs" />
+    <Compile Include="Input.cs" />
+    <Compile Include="MathT.cs" />
+    <Compile Include="Weapon.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Entity.cs" />
