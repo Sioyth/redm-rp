@@ -16,29 +16,25 @@ namespace TrinitaRP
             _player = new Player();
             Tick += Draw;
             API.RegisterCommand("pos", new Action(GetPosition), false);
-            API.RegisterCommand("godmode", new Action(GodMode), false);
-            API.RegisterCommand("destroy", new Action(DestroyVehicle), false);
+            API.RegisterCommand("godmode", new Action(GodMode), false);;
             API.RegisterCommand("teleport", new Action<int, List<object>, string>(Teleport), false);
             API.RegisterCommand("removeweps", new Action(RemoveAllWeapons), false);
-            //API.RegisterCommand("addwep", new Action<int, List<object>, string>(AddWeapon), false);
             API.RegisterCommand("spawn", new Action<int, List<object>, string>(SpawnVehicle), false);
 
-            int id = _menu.CreateSubmenu("Weapons", new Button[]
+            int weaponsID = _menu.CreateSubmenu("Weapons", new Button[]
             {
-                new Button("Add Weapon", AddWeapon),
                 new Button("Remove All Weapons", RemoveAllWeapons)
 
             });
 
-            //_menu.AddSubmenu(id, "All Weapons", new Action[]
-            //{
-            //    new Action(AddWeapon),
-            //    ()=> AddWeapon(WeaponHash.RevolverSchofield),
-            //    ()=> AddWeapon(WeaponHash.RepeaterWinchesterJohn),
-            //    ()=> AddWeapon(WeaponHash.ShotgunPump),
-            //    ()=> AddWeapon(WeaponHash.RifleVarmint),
-            //});
-      
+            _menu.AddSubmenu(weaponsID, "All Weapons", new Button[]
+            {
+                 new Button("RevolverSchofield", ()=> AddWeapon(WeaponHash.RevolverSchofield)),
+                 new Button("RepeaterWinchesterJohn", ()=> AddWeapon(WeaponHash.RepeaterWinchesterJohn)),
+                 new Button("ShotgunPump", ()=> AddWeapon(WeaponHash.ShotgunPump)),
+                 new Button("RifleVarmint", ()=> AddWeapon(WeaponHash.RifleVarmint)),
+            });
+
         }
 
         private void SpawnVehicle(int id, List<object> args, string raw)
@@ -48,8 +44,6 @@ namespace TrinitaRP
 
         private static void DestroyVehicle()
         {
-            //Ped player = Game.PlayerPed;
-            //if (player.IsInVehicle()) player.CurrentVehicle.Delete();
            
         }
 
@@ -86,9 +80,16 @@ namespace TrinitaRP
             _player.Teleport(pos);
         }
 
+        bool open = false;
         public async Task Draw()
         {
-           _menu.Draw();
+            if (Input.JustPressed(1, Control.OpenSatchelHorseMenu))
+            {
+                open = !open;
+                _menu.Closed = false;
+            }
+            if(open) _menu.Draw();
+            await Task.FromResult(0);
         }
 
 

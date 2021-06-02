@@ -25,10 +25,11 @@ namespace Trinita.Core.Native
         private int _nr ;
         private int _selected;
         private int _currentMenu;
-        private int _previousMenu;
         private string _title;
+        private bool _closed;
 
         private List<object> _options;
+        public bool Closed { get => _closed; set => _closed = value; }
 
         public Menu(string title)
         {
@@ -36,6 +37,7 @@ namespace Trinita.Core.Native
             _selected = 0;
             _currentMenu = -1;
             _title = title;
+            _closed = false;
             _options = new List<object>();
         }
 
@@ -46,28 +48,37 @@ namespace Trinita.Core.Native
 
         public void Draw(float x = 0.875f, float y = 0.5f, float width = 0.15f, float height = 0.50f)
         {
+            if (_closed) return;
 
-            if (Input.JustPressed(1, Control.GameMenuDown)) _selected = MathT.Clamp(++_selected, 0, _options.Count - 1);
-            if (Input.JustPressed(1, Control.GameMenuUp)) _selected = MathT.Clamp(--_selected, 0, _options.Count - 1);
-            if (Input.JustPressed(1, Control.GameMenuCancel) && _previousMenu != _currentMenu)
+            if (_currentMenu == -1)
             {
-                _currentMenu = _previousMenu;
-                if (_previousMenu == 0) _currentMenu = -1;
-            }
-            if (Input.JustPressed(1, Control.GameMenuAccept))
-            {
-                if (_options[_selected] is Button b) b.Action.Invoke();
-                if (_options[_selected] is Menu)
+                DrawMenu();
+
+                if (Input.JustPressed(1, Control.GameMenuDown)) _selected = MathT.Clamp(++_selected, 0, _options.Count - 1);
+                if (Input.JustPressed(1, Control.GameMenuUp)) _selected = MathT.Clamp(--_selected, 0, _options.Count - 1);
+                if (Input.JustPressed(1, Control.GameMenuCancel))
                 {
-                    _previousMenu = _currentMenu;
-                    _currentMenu = _selected;
+                    if (_currentMenu == 0) _currentMenu = -1;
+                    if (_currentMenu == -1)
+                    {
+                        _closed = true;
+                        return;
+                    }
+                }
+                if (Input.JustPressed(1, Control.GameMenuAccept))
+                {
+                    if (_options[_selected] is Button b) b.Action.Invoke();
+                    if (_options[_selected] is Menu m)
+                    {
+                        _currentMenu = _selected;
+                        m._closed = false;
+                    }
                 }
             }
+            else if (_options[_currentMenu] is Menu m) 
+                if(m._closed) _currentMenu = -1;
+                else m.Draw();
 
-            if (_currentMenu == -1) DrawMenu();
-            else if(_options[_currentMenu] is Menu m2) m2.Draw();
-
-            
         }
         public int CreateSubmenu(string title, Button[] buttons)
         {
@@ -106,18 +117,24 @@ namespace Trinita.Core.Native
             DrawRect(x, y, width, height, 0, 0, 0, 255);
             DrawText(_title, x, y - (height * .5f), center: true);
 
-            for (int i = 0; i < _options.Count; i++)
+            int from = MathT.Clamp(_selected - (_nr - 1), 0, _options.Count -_nr);
+            int to = MathT.Clamp(from + _nr, 0, _options.Count);
+
+            Debug.WriteLine("From: " + from.ToString());
+            Debug.WriteLine("To: " + to.ToString());
+
+            for (int i = from; i < to; i++) 
             {
                 if (_options[i] is Menu m)
                 {
-                    if (i == _selected) DrawButton(m._title, i, r: 200, g: 0, b: 0, a: 150);
-                    else DrawButton(m._title, i, r: 200, g: 0, b: 0);
+                    if (i == _selected) DrawButton(m._title, i - from, r: 200, g: 0, b: 0, a: 150);
+                    else DrawButton(m._title, i - from, r: 200, g: 0, b: 0);
                 }
 
                 if(_options[i] is Button b)
                 {
-                    if (i  == _selected) DrawButton(b.Name, i , r: 200, g: 0, b: 0, a: 150);
-                    else DrawButton(b.Name, i , r: 200, g: 0, b: 0, a: 255);
+                    if (i  == _selected) DrawButton(b.Name, i - from , r: 200, g: 0, b: 0, a: 150);
+                    else DrawButton(b.Name, i - from , r: 200, g: 0, b: 0, a: 255);
                 }
 
             }
